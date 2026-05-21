@@ -92,15 +92,18 @@ body {
 }
 
 .btn-secondary {
-    background: transparent;
+    background: rgba(255, 107, 53, 0.08);
     color: var(--accent-color);
     border: 2px solid var(--accent-color);
+    transition: background 1.4s cubic-bezier(0.25, 0.8, 0.5, 1), transform 1.4s cubic-bezier(0.25, 0.8, 0.5, 1), color 1.4s ease;
+    text-decoration: none;
 }
 
 .btn-secondary:hover {
-    background: var(--accent-color);
-    color: white;
-    transform: translateY(-2px);
+    background: rgba(255, 107, 53, 0.18);
+    color: var(--accent-color);
+    transform: translateY(-1px);
+    text-decoration: none;
 }
 
 .link-button {
@@ -247,74 +250,51 @@ body {
 .portfolio-categories {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 30px;
 }
 
-.category-folder {
+.portfolio-category {
     background: white;
-    border-radius: 12px;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.folder-header {
-    background: linear-gradient(135deg, #f5f5f5 0%, #f0f0f0 100%);
-    padding: 24px;
+.portfolio-category:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
+}
+
+.category-header {
+    background: rgba(255, 255, 255, 0.96);
+    padding: 24px 28px;
     display: flex;
     align-items: center;
-    gap: 15px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    border-left: 5px solid var(--accent-color);
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.folder-header:hover {
-    background: linear-gradient(135deg, #ff6b35 0%, #ff8555 100%);
-    transform: translateX(8px);
-}
-
-.folder-header:hover h3 {
-    color: white;
-}
-
-.folder-header:hover .folder-count {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-.folder-icon {
-    font-size: 36px;
-    transition: transform 0.3s ease;
-}
-
-.category-folder.open .folder-icon {
-    transform: rotate(10deg) scale(1.1);
-}
-
-.folder-header h3 {
+.category-header h3 {
     font-size: 24px;
-    color: #333;
+    color: var(--primary-color);
     margin: 0;
-    flex: 1;
-    font-weight: 600;
-    transition: color 0.3s ease;
+    font-weight: 700;
 }
 
-.folder-count {
-    background: rgba(255, 107, 53, 0.15);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
+.portfolio-count {
+    background: rgba(255, 107, 53, 0.12);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 14px;
     color: var(--accent-color);
-    font-weight: 500;
-    transition: all 0.3s ease;
+    font-weight: 600;
 }
 
 .folder-content {
+    display: block;
     padding: 25px;
-    animation: slideDown 0.3s ease;
 }
 
 @keyframes slideDown {
@@ -419,6 +399,11 @@ body {
 .contact-item a:hover {
     color: #e55a2b;
     text-decoration: underline;
+}
+
+.contact-item a.btn-secondary,
+.contact-item a.btn-secondary:hover {
+    text-decoration: none;
 }
 
 /* Форма контакта */
