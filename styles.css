@@ -314,6 +314,20 @@ body {
     gap: 20px;
 }
 
+.marketplace-category .portfolio-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 18px;
+}
+
+.marketplace-category .portfolio-image {
+    height: 170px;
+}
+
+.marketplace-category .portfolio-caption {
+    padding: 12px 14px 14px;
+    font-size: 13px;
+}
+
 .portfolio-item {
     background: white;
     border-radius: 10px;
