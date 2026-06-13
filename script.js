@@ -7,29 +7,34 @@ let touchEndX = 0;
 document.addEventListener('DOMContentLoaded', function() {
     // Инициализация портфолио картинок
     initPortfolioGallery();
-    
+
     // Обработчики для Lightbox
     const lightbox = document.getElementById('lightbox');
     const lightboxClose = document.querySelector('.lightbox-close');
     const lightboxPrev = document.querySelector('.lightbox-prev');
     const lightboxNext = document.querySelector('.lightbox-next');
     const lightboxContent = document.querySelector('.lightbox-content');
-    
     lightboxClose.addEventListener('click', closeLightbox);
-    lightboxPrev.addEventListener('click', showPrevImage);
-    lightboxNext.addEventListener('click', showNextImage);
-    
+    lightboxPrev.addEventListener('click', function() {
+        showPrevImage();
+        playButtonFlash(lightboxPrev);
+    });
+    lightboxNext.addEventListener('click', function() {
+        showNextImage();
+        playButtonFlash(lightboxNext);
+    });
+
     // Обработчики для свайпа
     lightboxContent.addEventListener('touchstart', handleSwipeStart, false);
     lightboxContent.addEventListener('touchend', handleSwipeEnd, false);
-    
+
     // Закрытие при клике на фон
     lightbox.addEventListener('click', function(e) {
         if (e.target === lightbox) {
             closeLightbox();
         }
     });
-    
+
     // Навигация с клавиатурой
     document.addEventListener('keydown', function(e) {
         if (lightbox.classList.contains('active')) {
@@ -52,7 +57,7 @@ function handleSwipeEnd(e) {
 function handleSwipe() {
     const swipeThreshold = 50;
     const diff = touchStartX - touchEndX;
-    
+
     if (Math.abs(diff) > swipeThreshold) {
         if (diff > 0) {
             // Свайп влево — показать следующую картинку
@@ -71,7 +76,7 @@ function initPortfolioGallery() {
         src: img.src,
         alt: img.alt
     }));
-    
+
     images.forEach((img, index) => {
         img.addEventListener('click', function() {
             openLightbox(index);
@@ -83,7 +88,7 @@ function openLightbox(index) {
     currentImageIndex = index;
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightbox-image');
-    
+
     lightboxImage.src = portfolioImages[index].src;
     lightboxImage.alt = portfolioImages[index].alt;
     lightbox.classList.add('active');
@@ -108,6 +113,18 @@ function showPrevImage() {
     const lightboxImage = document.getElementById('lightbox-image');
     lightboxImage.src = portfolioImages[currentImageIndex].src;
     lightboxImage.alt = portfolioImages[currentImageIndex].alt;
+}
+
+function playButtonFlash(button) {
+    if (!button) return;
+
+    button.classList.remove('is-flashing');
+    void button.offsetWidth;
+    button.classList.add('is-flashing');
+
+    window.setTimeout(() => {
+        button.classList.remove('is-flashing');
+    }, 260);
 }
 
 // Плавный скролл для навигационных ссылок
@@ -145,7 +162,7 @@ if (contactForm) {
             }
         });
     });
-    
+
     // Для textarea: Ctrl+Enter отправляет форму
     const textarea = contactForm.querySelector('textarea');
     if (textarea) {
@@ -156,21 +173,21 @@ if (contactForm) {
             }
         });
     }
-    
+
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
+
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
         submitBtn.textContent = 'Отправка...';
         submitBtn.disabled = true;
-        
+
         try {
             const name = this.querySelector('input[name="name"]').value;
             const email = this.querySelector('input[name="email"]').value;
             const message = this.querySelector('textarea[name="message"]').value;
             const timestamp = new Date().toLocaleString('ru-RU');
-            
+
             // Формируем текст сообщения
             const telegramMessage = `<b>📝 Новая заявка с портфолио</b>
 
@@ -180,11 +197,11 @@ if (contactForm) {
 ${message}
 
 <b>⏰ Время:</b> ${timestamp}`;
-            
+
             // Отправляем через Telegram Bot API
             const botToken = '8464552761:AAEatg3iVHcWf9iMo5xX_f2v17Euj2-5Yd8';
             const chatId = '763637481';
-            
+
             const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
                 method: 'POST',
                 headers: {
@@ -196,9 +213,9 @@ ${message}
                     parse_mode: 'HTML'
                 })
             });
-            
+
             const data = await response.json();
-            
+
             if (data.ok) {
                 alert('✅ Спасибо! Заявка отправлена. Я свяжусь с вами в ближайшее время.');
                 this.reset();
