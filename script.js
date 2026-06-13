@@ -15,13 +15,29 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightboxNext = document.querySelector('.lightbox-next');
     const lightboxContent = document.querySelector('.lightbox-content');
     lightboxClose.addEventListener('click', closeLightbox);
+    lightboxPrev.addEventListener('pointerdown', function() {
+        setButtonPressed(lightboxPrev, true);
+    });
+    lightboxPrev.addEventListener('pointerup', function() {
+        setButtonPressed(lightboxPrev, false);
+    });
+    lightboxPrev.addEventListener('pointercancel', function() {
+        setButtonPressed(lightboxPrev, false);
+    });
     lightboxPrev.addEventListener('click', function() {
         showPrevImage();
-        playButtonFlash(lightboxPrev);
+    });
+    lightboxNext.addEventListener('pointerdown', function() {
+        setButtonPressed(lightboxNext, true);
+    });
+    lightboxNext.addEventListener('pointerup', function() {
+        setButtonPressed(lightboxNext, false);
+    });
+    lightboxNext.addEventListener('pointercancel', function() {
+        setButtonPressed(lightboxNext, false);
     });
     lightboxNext.addEventListener('click', function() {
         showNextImage();
-        playButtonFlash(lightboxNext);
     });
 
     // Обработчики для свайпа
@@ -115,16 +131,10 @@ function showPrevImage() {
     lightboxImage.alt = portfolioImages[currentImageIndex].alt;
 }
 
-function playButtonFlash(button) {
+function setButtonPressed(button, isPressed) {
     if (!button) return;
 
-    button.classList.remove('is-flashing');
-    void button.offsetWidth;
-    button.classList.add('is-flashing');
-
-    window.setTimeout(() => {
-        button.classList.remove('is-flashing');
-    }, 260);
+    button.classList.toggle('is-pressed', isPressed);
 }
 
 // Плавный скролл для навигационных ссылок
